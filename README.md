@@ -1,6 +1,3 @@
-# fortranLAB
-A collection of links, samples, examples and tests for setup and usage of fortran (or maybe c) with libraries providing number crunching capabilities like those of MATLAB
-
 @ [https://iurisegtovich.github.io/fortranLAB/](https://iurisegtovich.github.io/fortranLAB/)
 
 >- NOTICE: I am learning this stuff as I write; I am writing it as I learn. Suggestions, corrections, contributions are all welcome.
