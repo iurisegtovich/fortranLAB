@@ -1,0 +1,1 @@
+http://nicolas.limare.net/pro/notes/2014/10/31_cblas_clapack_lapacke/
