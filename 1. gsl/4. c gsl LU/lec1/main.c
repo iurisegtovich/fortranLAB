@@ -16,8 +16,10 @@ int main(int argc, const char * argv[])
     
     // load them with values
     gsl_vector_set(b, 0, 0.0);
-    gsl_vector_set(b, 0, 4.0);
-    gsl_vector_set(b, 0, -2.0);
+//    gsl_vector_set(b, 0, 4.0); // <= as in the reference
+//    gsl_vector_set(b, 0, -2.0); // <= as in the reference
+    gsl_vector_set(b, 1, 4.0); // <= fix
+    gsl_vector_set(b, 2, -2.0); // <= fix
     
     gsl_matrix_set(A,0,0,1.0);
     gsl_matrix_set(A,0,1,-2.0);
