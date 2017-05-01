@@ -24,7 +24,6 @@ Table of ~~Contents~~ Intentions
 * openMPI
 * openGL
 * CUDA
-* texts, tables, diagrams
 
 ## External References
 
