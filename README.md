@@ -9,19 +9,19 @@
 
 Table of ~~Contents~~ Intentions
 
-0. a. compile, link, export path, run
-0. b. fortran-c_interoperability
-1. gsl
-2. netlib' LAPACK and friends
-3. atlas
-4. iMKL
-5. suitesparse
-6. PETSc
-7. FFTW
-8. GLPK
-9. NLOPT
-10. openMP
-11. openMPI
-12. openGL
-13. CUDA
-A. texts, tables, diagrams
+* 0. a. compile, link, export path, run
+* 0. b. fortran-c_interoperability
+* 1. gsl
+* 2. netlib' LAPACK and friends
+* 3. atlas
+* 4. iMKL
+* 5. suitesparse
+* 6. PETSc
+* 7. FFTW
+* 8. GLPK
+* 9. NLOPT
+* 10. openMP
+* 11. openMPI
+* 12. openGL
+* 13. CUDA
+* A. texts, tables, diagrams
