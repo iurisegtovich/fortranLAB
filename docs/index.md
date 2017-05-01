@@ -24,4 +24,8 @@ Table of ~~Contents~~ Intentions
 * openMPI
 * openGL
 * CUDA
-* texts, tables, diagrams
+
+## External References
+
+[Foadsf/Cmathtuts](https://github.com/Foadsf/Cmathtuts), "trying to collect all useful tutorials for famous C math and algebra libraries such as CBLAS, CLAPACK, GSL...
+"
