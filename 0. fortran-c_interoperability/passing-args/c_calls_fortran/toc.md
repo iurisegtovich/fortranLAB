@@ -15,4 +15,4 @@ global => module variable
 
 # refs
 https://stackoverflow.com/tags/fortran-iso-c-binding/info
-
+http://fortranwiki.org/fortran/show/c_interface_module
