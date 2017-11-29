@@ -1,4 +1,4 @@
-# version manifest
+#module version_manifest
 
 def version_manifest(f):
   import subprocess #check_output
