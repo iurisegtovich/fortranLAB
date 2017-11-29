@@ -1,5 +1,6 @@
-*-checkpoint.ipynb
+**/*-checkpoint.ipynb
 **/*.o
 **/*.elf
 **/*.mod
-*~
+**/*~
+**/*.pyc
