@@ -51,7 +51,9 @@ def plotres(f,xmin,xmax):
     
     for i,j in [(x, y) for x in [0,1] for y in [0,1]]:
         ax[i,j].plot(xlin,2*N*[0],c='k',ls='--')
-
+        ax[i,j].set_xlim(xmin,xmax)
+        almostzero=np.sqrt(np.min(np.concatenate([flin,flog])**2))
+        ax[i,j].set_ylim(-10*almostzero, 10*almostzero)
     return fig, ax
 
 def test_plotres():
