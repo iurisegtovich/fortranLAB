@@ -63,3 +63,58 @@ def test_plotres():
     fig.savefig("test_plotres.png")
     return
 
+def hysteretical_split(x,xp,fp,verbose=False):
+    import numpy as np
+    if len(xp)==len(fp) and np.isscalar(x):
+        n=len(xp)
+        t=np.arange(n)
+        piecewises=[]
+        ijs=[]
+        s=[+1]
+        p=0
+        i=0
+        j=0
+        while i<n:
+            if np.all(np.diff(xp[j:i+1]) > 0):
+                s[p]=+1
+                pass
+            elif np.all(np.diff(xp[j:i+1]) < 0):
+                s[p]=-1
+                pass
+            else:
+                piecewises+=[xp[j:i]]
+                ijs+=[(j,i)]
+                s+=[0]
+                j=i
+                p+=1
+            i+=1
+        piecewises+=[xp[j:i]] #last one, maybe the only one
+        ijs+=[(j,i)]     
+    return p, ijs, s
+
+def hysteretical_interp(x,xp,fp,pi=0,verbose=False):
+    import numpy as np
+    if len(xp)==len(fp) and np.isscalar(x):
+        p,ijs,s = hysteretical_split(x,xp,fp,verbose)
+        if verbose: print("series split into ", p, " pieces")
+        if verbose: print("seeking x ",x)
+
+        if verbose: print("between ",ijs[pi])
+        nx=s[pi]*x
+        nxp=s[pi] * np.asarray (xp[ijs[pi][0]:ijs[pi][1]])
+        nfp=fp[ijs[pi][0]:ijs[pi][1]]
+        
+        if verbose: print("as nx ",nx)
+        if verbose: print("in nxp",nxp)
+        if verbose: print("vs nfp",nfp)
+        
+#         print(nxp)
+#         print(nfp)
+        return np.interp(nx,nxp,nfp)
+
+def test_hysteretical_interp():
+    import numpy as np
+    print(
+    hysteretical_interp(-80,[1,2,3,4,50,60,58,40,31,22,0,-90,70,8,9],np.arange(15),1)
+    )
+  return
