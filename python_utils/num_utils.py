@@ -1,3 +1,5 @@
+import numpy as np
+
 def logspacedx(xmin,xmax,npt,base=10):
     '''returns log spaced x from xmin to xmax by calling numpy logspace from emin to emax where xmin=b**emin and xmax=b**emax'''
     from numpy import log10, logspace
@@ -6,9 +8,23 @@ def logspacedx(xmin,xmax,npt,base=10):
     return logspace(emin,emax,npt)
 
 def test_logspacedx():
-    print(logspacedx(1,100,3))
+    print(logspacedx(1.,100.,3))
     return
 
+def nlogspacedx(xmin,xmax,npt,base=10,threshold=1):
+    '''returns log spaced x from xmin to xmax by calling numpy logspace from emin to emax where xmin=b**emin and xmax=b**emax'''
+    from numpy import linspace
+    firsthalf=int(npt/2)
+    secondhalf=npt-int(npt/2)
+    negatives = np.array([x for x in linspace(xmin,threshold,firsthalf)])
+    positives = np.array([x for x in logspacedx(threshold,xmax,secondhalf)])
+    return np.concatenate([negatives,positives])
+
+def test_nlogspacedx():
+    print(nlogspacedx(1.,100.,3,4.))
+    return
+
+    
 def plotres(f,xmin,xmax):
     import numpy as np
     import matplotlib
@@ -63,23 +79,23 @@ def test_plotres():
     fig.savefig("test_plotres.png")
     return
 
-def hysteretical_split(x,xp,fp,verbose=False):
+def hysteretical_split(xp,fp,verbose=False,tol=0):
     import numpy as np
-    if len(xp)==len(fp) and np.isscalar(x):
+    if len(xp)==len(fp):
         n=len(xp)
         t=np.arange(n)
         piecewises=[]
         ijs=[]
         s=[+1]
-        p=0
+        p=1
         i=0
         j=0
         while i<n:
-            if np.all(np.diff(xp[j:i+1]) > 0):
-                s[p]=+1
+            if np.all(np.diff(xp[j:i+1]) >= tol):
+                s[p-1]=+1
                 pass
-            elif np.all(np.diff(xp[j:i+1]) < 0):
-                s[p]=-1
+            elif np.all(np.diff(xp[j:i+1]) <= tol):
+                s[p-1]=-1
                 pass
             else:
                 piecewises+=[xp[j:i]]
@@ -90,13 +106,18 @@ def hysteretical_split(x,xp,fp,verbose=False):
             i+=1
         piecewises+=[xp[j:i]] #last one, maybe the only one
         ijs+=[(j,i)]     
+        if verbose:
+            print("series split into ", p, " pieces")
+            for i, (ijsi, si) in enumerate(zip(ijs,s)):
+                print(i, " : ", ijsi, "[",si,"[")
     return p, ijs, s
 
-def hysteretical_interp(x,xp,fp,pi=0,verbose=False):
+def hysteretical_interp(x,xp,fp,pi,p,ijs,s,verbose=False):
     import numpy as np
     if len(xp)==len(fp) and np.isscalar(x):
-        p,ijs,s = hysteretical_split(x,xp,fp,verbose)
         if verbose: print("series split into ", p, " pieces")
+        #check if pi <= p-1
+        
         if verbose: print("seeking x ",x)
 
         if verbose: print("between ",ijs[pi])
@@ -118,3 +139,42 @@ def test_hysteretical_interp():
     hysteretical_interp(-80,[1,2,3,4,50,60,58,40,31,22,0,-90,70,8,9],np.arange(15),1)
     )
     return
+
+def naninf(x0,y0=None,xmin=-np.inf,xmax=np.inf,jtol=0):
+    import numpy as np
+    x1=x0[np.logical_not(np.isnan(x0))]
+    if y0 is not None: y1=y0[np.logical_not(np.isnan(x0))]
+    x2=x1[np.logical_not(x1>=xmax)]
+    if y0 is not None: y2=y1[np.logical_not(x1>=xmax)]
+    x3=x2[np.logical_not(x2<=xmin)]
+    if y0 is not None: y3=y2[np.logical_not(x2<=xmin)]
+    x4=x3[np.logical_not(np.imag(x3)>jtol)]
+    if y0 is not None: y4=y3[np.logical_not(np.imag(x3)>jtol)]
+    ans = np.real(x4)
+    if y0 is not None: ans = np.real(x4), np.real(y4)
+    return ans
+
+def test_naninf():
+    import numpy as np
+    x=np.array([1,2,3+j,np.nan, 4,5,np.inf,6,-np.inf,7])
+    print(naninf(x,jtol=2))
+    print(naninf(x,jtol=2))
+    
+def scistr(x,og=None):
+    #https://pyformat.info/
+    #https://mkaz.tech/code/python-string-format-cookbook/
+    #https://www.python-course.eu/python3_formatted_output.php
+    #https://www.digitalocean.com/community/tutorials/how-to-use-string-formatters-in-python-3
+    #https://docs.python.org/3.4/library/string.html <<<!!!
+
+    #if scalar
+#    lx=[x]
+    #if 1d
+    lx=x
+    ly=np.empty(np.shape(lx),dtype=object)
+    for i, xi in enumerate(lx):
+        ly[i]='{:.2e}'.format(xi)
+    #if scalar
+#    return ly[0]
+    #else
+    return ly
