@@ -80,6 +80,7 @@ def test_plotres():
     return
 
 def hysteretical_split(xp,fp,verbose=False,tol=0):
+    #bug, o s ta saindo 1 (crescente) quando devia sair -1 (decrescente) no caso de serie monotonica
     import numpy as np
     if len(xp)==len(fp):
         n=len(xp)

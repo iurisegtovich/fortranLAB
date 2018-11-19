@@ -17,3 +17,4 @@ def ddicteval(ddict,keys):
 '''testddict={"C1":{"com":"value"}}
 value=ddicteval(testddict,("C1","com",))
 print(value)'''
+

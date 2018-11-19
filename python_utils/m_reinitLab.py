@@ -33,12 +33,22 @@ _bash_command="readlink -f "
 _phys_file_path_str=str(_subprocess.check_output(_bash_command+"\""+__file__+"\"", shell=True))[2:-3]
 #parsing string from mtime functions
 _modification_time = _time.strftime('"%d/%m/%y %H:%M:%S"', _time.localtime(_os.path.getmtime(str(_phys_file_path_str))))
-_manifest="loading m_Hyd.py from \n", _phys_file_path_str, 
+_manifest="loading "+"m_reinitLab.py"+" from \n", _phys_file_path_str, 
 "\n modified at ", _modification_time
 m_reinitLab_manifest=_manifest
 #print(m_reinitLab_manifest)
 
 def reinitLab(module_name,varsdict=None,echo=False):
+    '''module_name :: string with complete reference to the module, e.g. "myPackage.aModule.targetSubmodule";
+                      to be checked against sys.modules and fed into importlib.reload or importlib.import_module.
+       varsdict :: to be fed with vars() from local scope,
+                   will update the varsdict object as if "from myPackage.aModule.targetSubmodule import *" was run in the caller scope,
+                   but ignoring variables starting with _
+                   returns the filtereddict, which was used to update the varsdict,
+                   there is no need to bind it in the caller scope except for debugging purposes;
+                   if None, returns the module object as if "import myPackage.aModule.targetSubmodule as _*" was run in the caller scope.
+       echo :: if True, tries to print the _manifest variable of the target module.
+    '''
     import importlib
     import sys
     
